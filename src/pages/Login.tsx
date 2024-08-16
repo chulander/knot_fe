@@ -1,13 +1,45 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthContext';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const { login, isLoggedIn, user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      navigate('/');
+    }
+  }, [isLoggedIn, user]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      const user = await login(email, password);
+      if (!user) {
+        setError('Invalid credentials. Please try again.');
+      }
+    } catch (err) {
+      setError('An error occurred during login. Please try again.');
+      console.error('Login failed:', err);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm rounded-lg bg-white p-8 shadow-md">
         <h2 className="mb-6 text-2xl font-bold">Welcome back</h2>
 
-        <form>
+        {error && <div className="mb-4 text-red-600">{error}</div>}
+
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="email">
               Work Email
@@ -18,6 +50,10 @@ const Login: React.FC = () => {
               name="email"
               placeholder="Work Email"
               className="w-full rounded-lg border border-gray-300 p-3"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email" // Add this line
             />
           </div>
 
@@ -31,6 +67,10 @@ const Login: React.FC = () => {
               name="password"
               placeholder="Password"
               className="w-full rounded-lg border border-gray-300 p-3"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password" // Add this line
             />
             <span className="absolute inset-y-0 right-3 flex cursor-pointer items-center">
               <svg
