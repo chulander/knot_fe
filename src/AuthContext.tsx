@@ -1,8 +1,9 @@
-import { type FC, type ReactNode, createContext, useCallback, ReactElement, useState } from 'react';
+import { FC, ReactNode, createContext, useCallback, ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from './types';
 import { AuthContextType } from './types';
 import axios from './shared/axios';
+import useSocket from './shared/hooks/use-socket';
 
 export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
@@ -23,26 +24,36 @@ const AuthProvider: FC<AuthProviderProps> = ({ children, initialUser, loggedIn }
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(loggedIn);
   const [user, setUser] = useState<User | null>(initialUser);
 
+  const socket = useSocket(user?.id || '');
+
   const logout = useCallback(async () => {
     setUser(null);
     setIsLoggedIn(false);
     localStorage.removeItem('user'); // Clear the user from localStorage
-    navigate('/login'); // Navigate to login page after logout
-  }, [navigate]);
+    if (socket) {
+      socket.disconnect(); // disconnect the socket on logout
+    }
+  }, [navigate, socket]);
 
   const login = useCallback(
     async (username: string, password: string) => {
       try {
-        const response = await axios.post('/users/login', {
+        const response = await axios.post('/api/users/login', {
           email: username,
           password
         });
+
         const { user } = response.data;
 
         setUser(user);
         setIsLoggedIn(true);
+
+        // Join the user's room after login
+        if (socket) {
+          socket.emit('join', user.id);
+        }
+
         localStorage.setItem('user', JSON.stringify(user)); // Save user to localStorage
-        navigate('/'); // Navigate to home page after successful login
         return user;
       } catch (error) {
         setUser(null);
@@ -51,7 +62,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children, initialUser, loggedIn }
         return null;
       }
     },
-    [navigate]
+    [socket]
   );
 
   return (

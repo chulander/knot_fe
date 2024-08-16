@@ -37,17 +37,15 @@ const ContactController: React.FC = () => {
     fetchContacts();
   }, [fetchContacts]);
 
-  const addContact = useCallback(async () => {
+  const addContact = async () => {
     try {
-      if (user) {
-        const response = await axios.post(`/contacts/${user.id}`, newContact);
-        setContacts([...contacts, response.data]);
-        setNewContact({ first_name: '', last_name: '', email: '', phone_number: '' });
-      }
+      const response = await axios.post('/api/contacts', newContact);
+      setContacts([...contacts, response.data]);
+      setNewContact({ first_name: '', last_name: '', email: '', phone_number: '' });
     } catch (error) {
       console.error('Failed to add contact', error);
     }
-  }, [contacts, newContact]);
+  };
 
   const updateContact = async (id: string) => {
     if (!editingContact) return;
@@ -79,45 +77,48 @@ const ContactController: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="rounded-lg bg-gray-100 p-6">
       <h2 className="mb-4 text-xl font-bold">Contact List</h2>
-      <div className="mb-4">
+
+      <div className="mb-4 flex items-center space-x-2">
         <input
           type="text"
           placeholder="First Name"
           value={newContact.first_name}
           onChange={(e) => setNewContact({ ...newContact, first_name: e.target.value })}
-          className="mr-2 rounded border p-2"
+          className="w-1/4 rounded-lg border border-gray-300 p-2"
         />
         <input
           type="text"
           placeholder="Last Name"
           value={newContact.last_name}
           onChange={(e) => setNewContact({ ...newContact, last_name: e.target.value })}
-          className="mr-2 rounded border p-2"
+          className="w-1/4 rounded-lg border border-gray-300 p-2"
         />
         <input
           type="email"
           placeholder="Email"
           value={newContact.email}
           onChange={(e) => setNewContact({ ...newContact, email: e.target.value })}
-          className="mr-2 rounded border p-2"
+          className="w-1/4 rounded-lg border border-gray-300 p-2"
         />
         <input
           type="text"
           placeholder="Phone Number"
           value={newContact.phone_number}
           onChange={(e) => setNewContact({ ...newContact, phone_number: e.target.value })}
-          className="mr-2 rounded border p-2"
+          className="w-1/4 rounded-lg border border-gray-300 p-2"
         />
-        <button onClick={addContact} className="rounded bg-blue-500 p-2 text-white">
+        <button
+          onClick={addContact}
+          className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
           Add Contact
         </button>
       </div>
 
       <ul>
         {contacts.map((contact) => (
-          <li key={contact.id} className="mb-2">
+          <li key={contact.id} className="mb-2 flex items-center space-x-2">
             {editingContact && editingContact.id === contact.id ? (
               <>
                 <input
@@ -129,7 +130,7 @@ const ContactController: React.FC = () => {
                       first_name: e.target.value
                     })
                   }
-                  className="mr-2 rounded border p-2"
+                  className="w-1/4 rounded-lg border border-gray-300 p-2"
                 />
                 <input
                   type="text"
@@ -140,7 +141,7 @@ const ContactController: React.FC = () => {
                       last_name: e.target.value
                     })
                   }
-                  className="mr-2 rounded border p-2"
+                  className="w-1/4 rounded-lg border border-gray-300 p-2"
                 />
                 <input
                   type="email"
@@ -151,7 +152,7 @@ const ContactController: React.FC = () => {
                       email: e.target.value
                     })
                   }
-                  className="mr-2 rounded border p-2"
+                  className="w-1/4 rounded-lg border border-gray-300 p-2"
                 />
                 <input
                   type="text"
@@ -162,34 +163,33 @@ const ContactController: React.FC = () => {
                       phone_number: e.target.value
                     })
                   }
-                  className="mr-2 rounded border p-2"
+                  className="w-1/4 rounded-lg border border-gray-300 p-2"
                 />
                 <button
                   onClick={() => updateContact(contact.id)}
-                  className="rounded bg-green-500 p-2 text-white">
+                  className="rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600">
                   Save
                 </button>
                 <button
                   onClick={handleCancelEdit}
-                  className="ml-2 rounded bg-red-500 p-2 text-white">
+                  className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600">
                   Cancel
                 </button>
               </>
             ) : (
               <>
-                <span className="mr-4">
-                  {contact.first_name} {contact.last_name}
-                </span>
-                <span className="mr-4">{contact.email}</span>
-                <span className="mr-4">{contact.phone_number}</span>
+                <span className="w-1/4">{contact.first_name}</span>
+                <span className="w-1/4">{contact.last_name}</span>
+                <span className="w-1/4">{contact.email}</span>
+                <span className="w-1/4">{contact.phone_number}</span>
                 <button
                   onClick={() => handleEditClick(contact)}
-                  className="rounded bg-yellow-500 p-2 text-white">
+                  className="rounded-lg bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600">
                   Edit
                 </button>
                 <button
                   onClick={() => deleteContact(contact.id)}
-                  className="ml-2 rounded bg-red-500 p-2 text-white">
+                  className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600">
                   Delete
                 </button>
               </>
@@ -202,3 +202,4 @@ const ContactController: React.FC = () => {
 };
 
 export default ContactController;
+{}
