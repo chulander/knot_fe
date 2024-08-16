@@ -55,29 +55,6 @@ const ContactController: React.FC = () => {
       socket.disconnect();
     };
   }, [socket]);
-  // useEffect(() => {
-  //   const socket = io(baseURL, {
-  //     withCredentials: true // Ensure cookies are sent with WebSocket connection
-  //   });
-
-  //   socket.on('contact_updated', (updatedContact: Contact) => {
-  //     setContacts((prevContacts) =>
-  //       prevContacts.map((contact) => (contact.id === updatedContact.id ? updatedContact : contact))
-  //     );
-  //     toast.info(`Contact updated: ${updatedContact.first_name} ${updatedContact.last_name}`);
-  //   });
-
-  //   socket.on('contact_deleted', (deletedContact: Contact) => {
-  //     setContacts((prevContacts) =>
-  //       prevContacts.filter((contact) => contact.id !== deletedContact.id)
-  //     );
-  //     toast.error(`Contact deleted: ${deletedContact.first_name} ${deletedContact.last_name}`);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
 
   const fetchContacts = useCallback(async () => {
     try {
