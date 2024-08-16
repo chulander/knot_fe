@@ -7,15 +7,20 @@ const useSocket = (userId: string) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketIo = io(baseURL);
+    if (userId) {
+      // Change this line to check if userId is available
+      const socketIo = io(baseURL, {
+        withCredentials: true // If you need to send cookies with the connection
+      });
 
-    socketIo.emit('join', userId);
+      socketIo.emit('join', userId);
 
-    setSocket(socketIo);
+      setSocket(socketIo);
 
-    return () => {
-      socketIo.disconnect();
-    };
+      return () => {
+        socketIo.disconnect();
+      };
+    }
   }, [userId]);
 
   return socket;

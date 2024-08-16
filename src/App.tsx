@@ -5,18 +5,24 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Contact from './pages/Contact';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/contacts" element={<Contact />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/logout" element={<Logout />}></Route>
-        <Route path="*" element={<Navigate to="/" />} />
-      </Route>
-    </Routes>
+    <>
+      {/* ToastContainer should be placed at the top level of your app */}
+      <ToastContainer />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/contacts" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

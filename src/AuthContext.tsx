@@ -38,7 +38,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children, initialUser, loggedIn }
   const login = useCallback(
     async (username: string, password: string) => {
       try {
-        const response = await axios.post('/api/users/login', {
+        const response = await axios.post('/users/login', {
           email: username,
           password
         });
