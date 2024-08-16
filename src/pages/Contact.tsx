@@ -10,7 +10,7 @@ const ContactController: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const auth = useAuth();
 
-  const socket = useSocket(auth.user ? auth.user.id : ''); // Use the custom hook to get the socket instance
+  const socket = useSocket(auth.user ? auth.user.id : ''); // Use the custom hook to get the socket instance based on the user.id
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [history, setHistory] = useState<AuditEntry[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
@@ -39,7 +39,6 @@ const ContactController: React.FC = () => {
       setContacts((prevContacts) =>
         prevContacts.map((contact) => (contact.id === updatedContact.id ? updatedContact : contact))
       );
-      console.log('Contacts:', contacts); // Add this line to debug
       toast.info(`Contact updated: ${updatedContact.first_name} ${updatedContact.last_name}`);
     });
 

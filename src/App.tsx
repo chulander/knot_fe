@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
-      {/* ToastContainer should be placed at the top level of your app */}
       <ToastContainer />
       <Routes>
         <Route element={<Layout />}>

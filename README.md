@@ -1,50 +1,59 @@
-# React + TypeScript + Vite
+# KnotAPI Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for KnotAPI, built with React, TypeScript, Vite.js, and TailwindCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Contact Management:** Add, edit, delete, and view history of contacts.
+- **Real-time Updates:** Receive real-time updates for contact changes.
+- **Authentication:** Secure login and session management with JWT.
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Before you begin, ensure you have met the following requirements:
 
-- Configure the top-level `parserOptions` property like this:
+- **Node.js** [nvm](https://github.com/nvm-sh/nvm) is recommended for managing Node.js versions.
+- [pnpm](https://pnpm.io/) package manager is required to install dependencies.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm i -g pnpm
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- create a .env file in the root of the project with the following content:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+VITE_API_URL=http://localhost:3000
 ```
+
+## Installation
+
+To install the project, follow these steps:
+
+1. clone the repository:
+
+```bash
+git clone git@github.com:chulander/knot_fe.git
+```
+
+2. CD into the project directory:
+
+```bash
+cd knot_fe
+```
+
+3. Install dependencies:
+
+```bash
+npm install # or pnpm install
+```
+
+4. Start the development server:
+
+```bash
+npm run dev # or pnpm run dev
+```
+
+5. To log in, please use the following credentials:
+
+- email: kieran@knotapi.com
+- password: Welcome1
